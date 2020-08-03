@@ -1,8 +1,7 @@
 package com.user12043.imuSensorVisualization;
 
+import com.user12043.imuSensorVisualization.obj.MovableCamera;
 import javafx.fxml.FXML;
-import javafx.geometry.Point3D;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -27,17 +26,15 @@ public class ObjectViewController {
     @FXML
     private Box zBox;
 
-    private PerspectiveCamera camera;
+    private MovableCamera camera;
 
     public void afterStart() {
         drawAxes();
-//        PhongMaterial material = new PhongMaterial(Color.BLUE);
-//        box.setMaterial(material);
-        camera = new PerspectiveCamera(true);
-//        camera.setTranslateX(100);
-//        camera.setTranslateY(100);
-//        camera.setTranslateZ(100);
-        camera.setFieldOfView(10000);
+        PhongMaterial material = new PhongMaterial(Color.BLUE);
+        box.setMaterial(material);
+        camera = new MovableCamera(true);
+        camera.setFarClip(1000);
+        camera.setNearClip(0.5);
         App.getObjectViewScene().setCamera(camera);
         App.getStage().addEventHandler(KeyEvent.KEY_PRESSED, this::keyEvent);
     }
@@ -54,38 +51,34 @@ public class ObjectViewController {
     public void keyEvent(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case W:
-                camera.setTranslateZ(camera.getTranslateZ() + cameraStep);
+                camera.moveZ(cameraStep);
                 break;
             case S:
-                camera.setTranslateZ(camera.getTranslateZ() - cameraStep);
+                camera.moveZ(-cameraStep);
                 break;
             case A:
-                camera.setTranslateX(camera.getTranslateX() - cameraStep);
+                camera.moveX(-cameraStep);
                 break;
             case D:
-                camera.setTranslateX(camera.getTranslateX() + cameraStep);
+                camera.moveX(cameraStep);
                 break;
             case Q:
-                camera.setTranslateY(camera.getTranslateY() - cameraStep);
+                camera.moveY(cameraStep);
                 break;
             case E:
-                camera.setTranslateY(camera.getTranslateY() + cameraStep);
+                camera.moveY(-cameraStep);
                 break;
             case UP:
-                camera.setRotationAxis(new Point3D(1.0, 0.0, 0.0));
-                camera.setRotate(camera.getRotate() + rotateStep);
+                camera.rotateX(rotateStep);
                 break;
             case DOWN:
-                camera.setRotationAxis(new Point3D(1.0, 0.0, 0.0));
-                camera.setRotate(camera.getRotate() - rotateStep);
+                camera.rotateX(-rotateStep);
                 break;
             case LEFT:
-                camera.setRotationAxis(new Point3D(0.0, 1.0, 0.0));
-                camera.setRotate(camera.getRotate() + rotateStep);
+                camera.rotateY(-rotateStep);
                 break;
             case RIGHT:
-                camera.setRotationAxis(new Point3D(0.0, 1.0, 0.0));
-                camera.setRotate(camera.getRotate() - rotateStep);
+                camera.rotateY(rotateStep);
                 break;
         }
     }

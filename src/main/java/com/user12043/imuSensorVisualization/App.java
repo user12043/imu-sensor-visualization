@@ -67,7 +67,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
-        stage.setTitle("ACC TEST");
+        stage.setTitle("IMU TEST");
         mainViewScene = new Scene(loadFXML("main-view"), 900, 600);
         primaryStage.setScene(mainViewScene);
         primaryStage.show();
