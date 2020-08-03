@@ -10,6 +10,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <jfx.version>11.0.2</jfx.version>
     <jfx.plugin.version>0.0.4</jfx.plugin.version>
+    <jSerialComm.version>2.6.2</jSerialComm.version>
   </properties>
   <dependencies>
     <dependency>
@@ -21,6 +22,11 @@
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
       <version>${jfx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fazecast</groupId>
+      <artifactId>jSerialComm</artifactId>
+      <version>${jSerialComm.version}</version>
     </dependency>
   </dependencies>
   <build>
