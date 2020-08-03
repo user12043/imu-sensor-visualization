@@ -80,6 +80,9 @@ public class ObjectViewController {
             case RIGHT:
                 camera.rotateY(rotateStep);
                 break;
+            case SPACE:
+                camera.resetPosition();
+                break;
         }
     }
 }

@@ -12,30 +12,28 @@ import javafx.scene.transform.Rotate;
  * @author user12043
  */
 public class MovableCamera extends PerspectiveCamera {
-    private Rotate xRotate;
-    private Rotate yRotate;
-    private DoubleProperty xRotateAngle;
-    private DoubleProperty yRotateAngle;
-    private DoubleProperty xTranslate;
-    private DoubleProperty yTranslate;
-    private DoubleProperty zTranslate;
+    private final DoubleProperty xRotateAngle;
+    private final DoubleProperty yRotateAngle;
+    private final DoubleProperty xTranslate;
+    private final DoubleProperty yTranslate;
+    private final DoubleProperty zTranslate;
 
     public MovableCamera(boolean fixedEyeAtCameraZero) {
         super(fixedEyeAtCameraZero);
-        xRotateAngle = new SimpleDoubleProperty(0.0);
-        yRotateAngle = new SimpleDoubleProperty(0.0);
-        xTranslate = new SimpleDoubleProperty(200);
-        yTranslate = new SimpleDoubleProperty(-200);
-        zTranslate = new SimpleDoubleProperty(-200);
-        xRotate = new Rotate(xRotateAngle.get(), Rotate.X_AXIS);
-        yRotate = new Rotate(yRotateAngle.get(), Rotate.Y_AXIS);
+        xRotateAngle = new SimpleDoubleProperty();
+        yRotateAngle = new SimpleDoubleProperty();
+        xTranslate = new SimpleDoubleProperty();
+        yTranslate = new SimpleDoubleProperty();
+        zTranslate = new SimpleDoubleProperty();
+        Rotate xRotate = new Rotate(xRotateAngle.get(), Rotate.X_AXIS);
+        Rotate yRotate = new Rotate(yRotateAngle.get(), Rotate.Y_AXIS);
         xRotate.angleProperty().bind(xRotateAngle);
         yRotate.angleProperty().bind(yRotateAngle);
-        xTranslate = new SimpleDoubleProperty();
         translateXProperty().bind(xTranslate);
         translateYProperty().bind(yTranslate);
         translateZProperty().bind(zTranslate);
         getTransforms().addAll(xRotate, yRotate);
+        resetPosition();
     }
 
     public void rotateX(double amount) {
@@ -56,5 +54,13 @@ public class MovableCamera extends PerspectiveCamera {
 
     public void moveZ(double amount) {
         zTranslate.set(zTranslate.get() + amount);
+    }
+
+    public void resetPosition() {
+        xTranslate.set(200);
+        yTranslate.set(-350);
+        zTranslate.set(-500);
+        xRotateAngle.set(-30);
+        yRotateAngle.set(-15);
     }
 }
