@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -14,15 +13,15 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.user12043.imuSensorVisualization.MainViewController">
    <children>
-      <AnchorPane fx:id="anchorPane" style="-fx-border-color: blue;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="10.0" />
-      <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane fx:id="anchorPane" style="-fx-border-color: blue;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="40.0" />
+      <VBox alignment="TOP_CENTER" prefWidth="400.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox alignment="CENTER" prefWidth="200.0">
                <children>
                   <Label text="Serial Port:" />
                   <ComboBox fx:id="serialPortSelect" onAction="#serialPortSelected" prefWidth="100.0" promptText="Select port...">
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="10.0" />
                      </HBox.margin>
                   </ComboBox>
                </children>
@@ -32,7 +31,7 @@
                   <Label text="Baud Rate:" />
                   <Spinner fx:id="baudRateInput" editable="true" prefWidth="100.0">
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="10.0" />
                      </HBox.margin>
                   </Spinner>
                </children>
@@ -45,9 +44,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <LineChart fx:id="accX" createSymbols="false" horizontalGridLinesVisible="false" legendVisible="false" prefHeight="587.0" prefWidth="350.0" title="ACC-X">
+            <LineChart fx:id="chart" animated="false" createSymbols="false" horizontalGridLinesVisible="false" prefWidth="400.0" title="ACC" VBox.vgrow="ALWAYS">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <NumberAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />
@@ -58,5 +57,6 @@
             </LineChart>
          </children>
       </VBox>
+      <Button fx:id="sceneFocusButton" layoutX="330.0" layoutY="10.0" mnemonicParsing="false" text="Click to focus to scene" AnchorPane.topAnchor="5.0" />
    </children>
 </AnchorPane>

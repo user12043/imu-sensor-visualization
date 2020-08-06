@@ -14,6 +14,7 @@ import javafx.scene.transform.Rotate;
 public class MovableCamera extends PerspectiveCamera {
     private final DoubleProperty xRotateAngle;
     private final DoubleProperty yRotateAngle;
+    private final DoubleProperty zRotateAngle;
     private final DoubleProperty xTranslate;
     private final DoubleProperty yTranslate;
     private final DoubleProperty zTranslate;
@@ -22,17 +23,20 @@ public class MovableCamera extends PerspectiveCamera {
         super(fixedEyeAtCameraZero);
         xRotateAngle = new SimpleDoubleProperty();
         yRotateAngle = new SimpleDoubleProperty();
+        zRotateAngle = new SimpleDoubleProperty();
         xTranslate = new SimpleDoubleProperty();
         yTranslate = new SimpleDoubleProperty();
         zTranslate = new SimpleDoubleProperty();
         Rotate xRotate = new Rotate(xRotateAngle.get(), Rotate.X_AXIS);
         Rotate yRotate = new Rotate(yRotateAngle.get(), Rotate.Y_AXIS);
+        Rotate zRotate = new Rotate(yRotateAngle.get(), Rotate.Z_AXIS);
         xRotate.angleProperty().bind(xRotateAngle);
         yRotate.angleProperty().bind(yRotateAngle);
+        zRotate.angleProperty().bind(zRotateAngle);
         translateXProperty().bind(xTranslate);
         translateYProperty().bind(yTranslate);
         translateZProperty().bind(zTranslate);
-        getTransforms().addAll(xRotate, yRotate);
+        getTransforms().addAll(xRotate, yRotate, zRotate);
         resetPosition();
     }
 
@@ -42,6 +46,10 @@ public class MovableCamera extends PerspectiveCamera {
 
     public void rotateY(double amount) {
         yRotateAngle.set(yRotateAngle.get() + amount);
+    }
+
+    public void rotateZ(double amount) {
+        zRotateAngle.set(zRotateAngle.get() + amount);
     }
 
     public void moveX(double amount) {

@@ -2,6 +2,7 @@ package com.user12043.imuSensorVisualization;
 
 import com.user12043.imuSensorVisualization.obj.MovableCamera;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -36,13 +37,16 @@ public class ObjectViewController {
         camera.setFarClip(1000);
         camera.setNearClip(0.5);
         App.getObjectViewScene().setCamera(camera);
-        App.getStage().addEventHandler(KeyEvent.KEY_PRESSED, this::keyEvent);
+//        App.getStage().addEventHandler(KeyEvent.KEY_PRESSED, this::keyEvent);
     }
 
     private void drawAxes() {
-        PhongMaterial red = new PhongMaterial(Color.RED);
-        PhongMaterial green = new PhongMaterial(Color.GREEN);
-        PhongMaterial blue = new PhongMaterial(Color.BLUE);
+        PhongMaterial red = new PhongMaterial(Color.DARKRED);
+        red.setSpecularColor(Color.RED);
+        PhongMaterial green = new PhongMaterial(Color.DARKGREEN);
+        green.setSpecularColor(Color.GREEN);
+        PhongMaterial blue = new PhongMaterial(Color.DARKBLUE);
+        blue.setSpecularColor(Color.BLUE);
         xBox.setMaterial(red);
         yBox.setMaterial(green);
         zBox.setMaterial(blue);
@@ -80,9 +84,17 @@ public class ObjectViewController {
             case RIGHT:
                 camera.rotateY(rotateStep);
                 break;
+            case HOME:
+                camera.rotateZ(rotateStep);
+                break;
+            case END:
+                camera.rotateZ(-rotateStep);
+                break;
             case SPACE:
                 camera.resetPosition();
                 break;
         }
+        // block event to prevent focusing other nodes
+        if (keyEvent.getCode() != KeyCode.TAB) keyEvent.consume();
     }
 }

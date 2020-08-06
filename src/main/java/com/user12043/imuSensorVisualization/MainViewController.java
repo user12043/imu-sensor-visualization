@@ -11,29 +11,33 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class MainViewController {
     int count = 0;
-    XYChart.Series<String, Number> xData = new XYChart.Series<>();
+    XYChart.Series<Number, Number> xData = new XYChart.Series<>();
+    XYChart.Series<Number, Number> yData = new XYChart.Series<>();
+    XYChart.Series<Number, Number> zData = new XYChart.Series<>();
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private LineChart<String, Number> accX;
+    private LineChart<Number, Number> chart;
     @FXML
     private ComboBox<String> serialPortSelect;
     @FXML
     private Spinner<Integer> baudRateInput;
     @FXML
     private Button connectButton;
+    @FXML
+    private Button sceneFocusButton;
 
     public void afterStart() {
-//        XYChart.Series<String, Number> data = new XYChart.Series<>();
-//        data.getData().add(new XYChart.Data<>("0", 2));
-//        data.getData().add(new XYChart.Data<>("1", 3));
-//        data.getData().add(new XYChart.Data<>("2", 5));
-//        data.getData().add(new XYChart.Data<>("3", 7));
-        accX.getData().add(xData);
+        xData.setName("X");
+        yData.setName("Y");
+        zData.setName("Z");
+        //noinspection unchecked
+        chart.getData().addAll(xData, yData, zData);
         SubScene objectViewScene = App.getObjectViewScene();
         anchorPane.getChildren().add(objectViewScene);
 
@@ -46,6 +50,8 @@ public class MainViewController {
         baudRateInput.setValueFactory(valueFactory);
         baudRateInput.valueProperty().addListener(this::baudRateSelected);
         serialPortSelect.getSelectionModel().selectLast();
+        sceneFocusButton.addEventFilter(KeyEvent.KEY_PRESSED, App.getObjectViewController()::keyEvent);
+        sceneFocusButton.requestFocus();
         App.getObjectViewController().afterStart();
     }
 
@@ -54,15 +60,22 @@ public class MainViewController {
         Platform.runLater(() -> {
             String data = rawData.substring(1);
             String[] split = data.split(",");
-            if (xData.getData().size() > 3000) {
+            /*if (xData.getData().size() > 300) {
                 xData.getData().remove(0);
-            }
+                yData.getData().remove(0);
+                zData.getData().remove(0);
+            }*/
             // clear after some
-            if (count > 6000) {
+            if (count >= 1000) {
                 count = 0;
                 xData.getData().clear();
+                yData.getData().clear();
+                zData.getData().clear();
+                chart.getXAxis().setAutoRanging(false);
             }
-            xData.getData().add(new XYChart.Data<>(Integer.toString(count++), Integer.valueOf(split[0])));
+            xData.getData().add(new XYChart.Data<>(count, Integer.valueOf(split[0])));
+            yData.getData().add(new XYChart.Data<>(count, Integer.valueOf(split[1])));
+            zData.getData().add(new XYChart.Data<>(count++, Integer.valueOf(split[2])));
         });
     }
 

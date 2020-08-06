@@ -2,6 +2,7 @@ package com.user12043.imuSensorVisualization;
 
 import com.user12043.imuSensorVisualization.serial.SerialReader;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -80,10 +81,15 @@ public class App extends Application {
         stage = primaryStage;
         stage.setTitle("IMU TEST");
         mainViewScene = new Scene(loadFXML("main-view"), 1200, 800);
-        primaryStage.setScene(mainViewScene);
-        primaryStage.show();
+        stage.setScene(mainViewScene);
+        stage.show();
         serialReader = new SerialReader();
         mainViewController.afterStart();
+        // Window opens at background at start. This is for grabbing focus
+        Platform.runLater(() -> {
+            stage.setIconified(true);
+            stage.setIconified(false);
+        });
         stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
             serialReader.close();
             System.exit(0);
